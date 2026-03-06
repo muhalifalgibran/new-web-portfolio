@@ -7,12 +7,13 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { categoryLabels, type BlogCategory } from '@/data/blog';
 import { sectionLabels } from '@/data/personal';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
+import SectionHeading from '@/components/SectionHeading';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function BlogPreview() {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
   const postsRef = useRef<HTMLDivElement>(null);
   const { language, t } = useLanguage();
   const { posts: allPosts } = useBlogPosts();
@@ -22,7 +23,7 @@ export default function BlogPreview() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        titleRef.current,
+        headingRef.current,
         { opacity: 0, y: 20 },
         {
           opacity: 1,
@@ -30,7 +31,7 @@ export default function BlogPreview() {
           duration: 0.6,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: titleRef.current,
+            trigger: headingRef.current,
             start: 'top 80%',
             toggleActions: 'play none none reverse',
           },
@@ -60,10 +61,10 @@ export default function BlogPreview() {
 
   const getCategoryColor = (category: BlogCategory) => {
     switch (category) {
-      case 'engineering': return 'bg-accent-blue';
-      case 'religion': return 'bg-accent-green';
-      case 'social': return 'bg-accent-red';
-      default: return 'bg-ink';
+      case 'engineering': return 'bg-indigo-500/80';
+      case 'religion': return 'bg-emerald-500/80';
+      case 'social': return 'bg-rose-500/80';
+      default: return 'bg-white/20';
     }
   };
 
@@ -77,24 +78,19 @@ export default function BlogPreview() {
   };
 
   return (
-    <section ref={sectionRef} className="section-brutal">
+    <section ref={sectionRef} className="section-modern">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div
-          ref={titleRef}
-          className="flex flex-col md:flex-row md:items-end md:justify-between mb-12"
-        >
-          <div>
-            <h2 className="text-3xl md:text-4xl font-mono font-bold mb-2">
-              {t(sectionLabels.latestPosts.en, sectionLabels.latestPosts.id)}
-            </h2>
-            <p className="text-ink-light">
-              {t('Thoughts, tutorials, and reflections', 'Pikiran, tutorial, dan refleksi')}
-            </p>
-          </div>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+          <SectionHeading
+            ref={headingRef}
+            title={t(sectionLabels.latestPosts.en, sectionLabels.latestPosts.id)}
+            subtitle={t('Thoughts, tutorials, and reflections', 'Pikiran, tutorial, dan refleksi')}
+            center={false}
+          />
           <Link
             to="/blog"
-            className="btn-brutal-outline mt-4 md:mt-0 self-start md:self-auto"
+            className="btn-ghost mt-4 md:mt-0 self-start md:self-auto"
           >
             <span>{t(sectionLabels.viewAll.en, sectionLabels.viewAll.id)}</span>
             <ArrowRight className="w-4 h-4" />
@@ -109,39 +105,39 @@ export default function BlogPreview() {
               to={`/blog/${post.slug}`}
               className="group"
             >
-              <article className="card-brutal h-full flex flex-col hover:shadow-brutal-lg transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1">
-                <div className="aspect-video bg-paper-dark border-b-3 border-ink mb-4 flex items-center justify-center relative overflow-hidden">
+              <article className="glass-card h-full flex flex-col overflow-hidden">
+                <div className="aspect-video bg-secondary relative overflow-hidden">
                   <img
                     src={post.featuredImage || '/blog/pixel-code.png'}
                     alt={post.title[language]}
-                    className="absolute inset-0 w-full h-full object-cover pixel-image"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className={`absolute top-3 left-3 px-2 py-1 text-xs font-mono uppercase text-white z-10 ${getCategoryColor(post.tags[0])}`}>
+                  <div className={`absolute top-3 left-3 px-2.5 py-1 text-xs font-medium text-white rounded-md z-10 backdrop-blur-sm ${getCategoryColor(post.tags[0])}`}>
                     {categoryLabels[post.tags[0]][language]}
                   </div>
                 </div>
 
-                <div className="flex-1 flex flex-col">
-                  <div className="flex items-center gap-3 text-xs text-ink-light mb-3">
-                    <span className="font-mono">{formatDate(post.date)}</span>
-                    <span>•</span>
+                <div className="flex-1 flex flex-col p-5">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                    <span>{formatDate(post.date)}</span>
+                    <span>·</span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {post.readingTime} {t(sectionLabels.readingTime.en, sectionLabels.readingTime.id)}
                     </span>
                   </div>
 
-                  <h3 className="font-mono font-bold text-lg mb-2 group-hover:text-accent-red transition-colors line-clamp-2">
+                  <h3 className="font-semibold text-lg mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
                     {post.title[language]}
                   </h3>
 
-                  <p className="text-sm text-ink-light line-clamp-2 mb-4 flex-1">
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">
                     {post.excerpt[language]}
                   </p>
 
-                  <div className="flex items-center gap-2 text-sm font-mono uppercase group-hover:text-accent-red transition-colors">
+                  <div className="flex items-center gap-2 text-sm text-primary group-hover:gap-3 transition-all">
                     <span>{t(sectionLabels.readMore.en, sectionLabels.readMore.id)}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </article>

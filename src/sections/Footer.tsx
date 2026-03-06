@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Github, Twitter, ArrowUp, Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { personalInfo, sectionLabels } from '@/data/personal';
+import { personalInfo } from '@/data/personal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,135 +41,77 @@ export default function Footer() {
 
   const currentYear = new Date().getFullYear();
 
+  const socialLinks = [
+    { href: personalInfo.social.linkedin, icon: Linkedin },
+    { href: personalInfo.social.github, icon: Github },
+    { href: personalInfo.social.twitter, icon: Twitter },
+    { href: `mailto:${personalInfo.email}`, icon: Mail },
+  ];
+
   return (
-    <footer ref={footerRef} className="bg-ink text-paper py-16 px-4 md:px-8">
+    <footer ref={footerRef} className="border-t border-white/10 py-12 px-4 md:px-8">
       <div ref={contentRef} className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
-          {/* Brand */}
-          <div>
-            <Link to="/" className="font-mono text-2xl font-bold tracking-tight mb-4 block">
-              <span className="text-accent-red">&lt;</span>
-              {personalInfo.nickName.toUpperCase()}
-              <span className="text-accent-red">/&gt;</span>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Brand & Social */}
+          <div className="flex flex-col items-center md:items-start gap-4">
+            <Link to="/" className="text-lg font-bold tracking-tight">
+              <span className="text-muted-foreground">&lt;</span>
+              <span className="gradient-text">{personalInfo.nickName}</span>
+              <span className="text-muted-foreground">/&gt;</span>
             </Link>
-            <p className="text-paper/70 mb-6">
-              {t('Flutter Engineer crafting beautiful mobile experiences.', 
-                 'Engineer Flutter yang menciptakan pengalaman mobile yang indah.')}
-            </p>
-            <div className="flex gap-3">
-              <a
-                href={personalInfo.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 border-2 border-paper/30 flex items-center justify-center hover:bg-paper hover:text-ink transition-colors"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href={personalInfo.social.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 border-2 border-paper/30 flex items-center justify-center hover:bg-paper hover:text-ink transition-colors"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href={personalInfo.social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 border-2 border-paper/30 flex items-center justify-center hover:bg-paper hover:text-ink transition-colors"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="w-10 h-10 border-2 border-paper/30 flex items-center justify-center hover:bg-paper hover:text-ink transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+            <div className="flex gap-2">
+              {socialLinks.map((link, i) => (
+                <a
+                  key={i}
+                  href={link.href}
+                  target={link.href.startsWith('mailto') ? undefined : '_blank'}
+                  rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all"
+                >
+                  <link.icon className="w-4 h-4 text-muted-foreground" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-mono font-bold uppercase mb-4 text-sm tracking-wider">
-              {t('Quick Links', 'Tautan Cepat')}
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-paper/70 hover:text-paper transition-colors">
-                  {t('Home', 'Beranda')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/blog" className="text-paper/70 hover:text-paper transition-colors">
-                  {t('Blog', 'Blog')}
-                </Link>
-              </li>
-              <li>
-                <a
-                  href={personalInfo.social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-paper/70 hover:text-paper transition-colors"
-                >
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href={personalInfo.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-paper/70 hover:text-paper transition-colors"
-                >
-                  LinkedIn
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-mono font-bold uppercase mb-4 text-sm tracking-wider">
-              {t(sectionLabels.getInTouch.en, sectionLabels.getInTouch.id)}
-            </h4>
-            <p className="text-paper/70 mb-4">
-              {t('Open for collaborations and opportunities.', 
-                 'Terbuka untuk kolaborasi dan kesempatan.')}
-            </p>
+          {/* Links */}
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <Link to="/" className="hover:text-foreground transition-colors">
+              {t('Home', 'Beranda')}
+            </Link>
+            <Link to="/blog" className="hover:text-foreground transition-colors">
+              {t('Blog', 'Blog')}
+            </Link>
             <a
-              href={`mailto:${personalInfo.email}`}
-              className="inline-flex items-center gap-2 border-2 border-paper/30 px-4 py-2 hover:bg-paper hover:text-ink transition-colors"
+              href={personalInfo.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
             >
-              <Mail className="w-4 h-4" />
-              <span className="font-mono text-sm">{personalInfo.email}</span>
+              GitHub
             </a>
           </div>
-        </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t-2 border-paper/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-paper/50 text-sm font-mono flex items-center gap-1">
-            © {currentYear} {personalInfo.name.split(' ').slice(0, 2).join(' ')} •
-            <span className="flex items-center gap-1">
-              {t('Made with', 'Dibuat dengan')} <Heart className="w-3 h-3 text-accent-red" /> {t('in', 'di')} Makassar
-            </span>
-          </p>
-
+          {/* Back to top */}
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-2 text-paper/50 hover:text-paper transition-colors font-mono text-sm"
+            className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-all"
+            aria-label="Back to top"
           >
-            <span>{t('Back to Top', 'Kembali ke Atas')}</span>
-            <ArrowUp className="w-4 h-4" />
+            <ArrowUp className="w-4 h-4 text-muted-foreground" />
           </button>
         </div>
 
-        {/* Palestine Support */}
-        <div className="mt-8 text-center">
-          <p className="text-paper/30 text-xs font-mono">
-            #SafePalestine 🇵🇸 🍉
+        {/* Bottom */}
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-muted-foreground text-xs flex items-center gap-1">
+            &copy; {currentYear} {personalInfo.name.split(' ').slice(0, 2).join(' ')} ·
+            <span className="flex items-center gap-1">
+              {t('Made with', 'Dibuat dengan')} <Heart className="w-3 h-3 text-rose-400" /> {t('in', 'di')} Makassar
+            </span>
+          </p>
+          <p className="text-muted-foreground/50 text-xs">
+            #FreePalestine
           </p>
         </div>
       </div>

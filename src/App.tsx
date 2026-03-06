@@ -7,6 +7,7 @@ import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { useLenis } from '@/hooks/useLenis';
 import NoiseOverlay from '@/components/NoiseOverlay';
+import GradientBackground from '@/components/GradientBackground';
 import Navigation from '@/sections/Navigation';
 import HomePage from '@/pages/HomePage';
 import BlogPage from '@/pages/BlogPage';
@@ -72,12 +73,12 @@ function App() {
     <AuthProvider>
       <LanguageProvider>
         <Router>
-          <div className="relative min-h-screen bg-paper">
+          <div className="relative min-h-screen bg-background">
+            {/* Gradient background orbs */}
+            <GradientBackground />
+
             {/* Noise texture overlay */}
             <NoiseOverlay />
-
-            {/* Grid pattern background */}
-            <div className="fixed inset-0 grid-pattern pointer-events-none" />
 
             {/* Navigation */}
             <Navigation />

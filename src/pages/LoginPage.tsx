@@ -30,25 +30,25 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-ink-light hover:text-ink transition-colors mb-8 font-mono text-sm"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 text-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
 
-        <div className="brutal-border p-8 bg-paper">
-          <h1 className="text-3xl font-mono font-bold mb-2">Login</h1>
-          <p className="text-ink-light font-mono text-sm mb-8">Admin access only.</p>
+        <div className="glass-card p-8">
+          <h1 className="text-3xl font-bold mb-2">Login</h1>
+          <p className="text-muted-foreground text-sm mb-8">Admin access only.</p>
 
           {error && (
-            <div className="mb-6 p-3 border-2 border-accent-red bg-accent-red/10 font-mono text-sm text-accent-red">
+            <div className="mb-6 p-3 rounded-lg border border-destructive/30 bg-destructive/10 text-sm text-destructive">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">
+              <label className="text-xs text-muted-foreground block mb-1.5">
                 Email
               </label>
               <input
@@ -56,12 +56,12 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
             <div>
-              <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">
+              <label className="text-xs text-muted-foreground block mb-1.5">
                 Password
               </label>
               <input
@@ -69,14 +69,14 @@ export default function LoginPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
-                className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn-brutal flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+              className="btn-primary justify-center mt-2"
             >
               <LogIn className="w-4 h-4" />
               {loading ? 'Signing in...' : 'Sign In'}

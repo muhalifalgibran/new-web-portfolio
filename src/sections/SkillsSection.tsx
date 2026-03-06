@@ -4,21 +4,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { personalInfo } from '@/data/personal';
 import { sectionLabels } from '@/data/personal';
+import SectionHeading from '@/components/SectionHeading';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function SkillsSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const certsRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title animation
       gsap.fromTo(
-        titleRef.current,
+        headingRef.current,
         { opacity: 0, y: 20 },
         {
           opacity: 1,
@@ -26,24 +26,23 @@ export default function SkillsSection() {
           duration: 0.6,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: titleRef.current,
+            trigger: headingRef.current,
             start: 'top 80%',
             toggleActions: 'play none none reverse',
           },
         }
       );
 
-      // Skills animation
-      const skillBars = skillsRef.current?.querySelectorAll('.skill-bar');
-      skillBars?.forEach((bar, index) => {
+      const skillCards = skillsRef.current?.children;
+      if (skillCards) {
         gsap.fromTo(
-          bar,
-          { opacity: 0, x: -20 },
+          skillCards,
+          { opacity: 0, y: 20 },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             duration: 0.5,
-            delay: index * 0.1,
+            stagger: 0.08,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: skillsRef.current,
@@ -52,28 +51,8 @@ export default function SkillsSection() {
             },
           }
         );
+      }
 
-        // Animate the progress bar
-        const progress = bar.querySelector('.skill-progress');
-        const level = personalInfo.skills[index]?.level || 0;
-        gsap.fromTo(
-          progress,
-          { width: '0%' },
-          {
-            width: `${level}%`,
-            duration: 1,
-            delay: index * 0.1 + 0.3,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: skillsRef.current,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-      });
-
-      // Certifications animation
       gsap.fromTo(
         certsRef.current?.children || [],
         { opacity: 0, y: 20 },
@@ -95,82 +74,88 @@ export default function SkillsSection() {
     return () => ctx.revert();
   }, []);
 
+  const getLevelDots = (level: number) => {
+    const dots = 5;
+    const filled = Math.round((level / 100) * dots);
+    return Array.from({ length: dots }, (_, i) => i < filled);
+  };
+
   return (
-    <section ref={sectionRef} className="section-brutal bg-paper-dark">
+    <section ref={sectionRef} className="section-modern">
       <div className="max-w-7xl mx-auto">
-        {/* Section Title */}
-        <h2
-          ref={titleRef}
-          className="text-3xl md:text-4xl font-mono font-bold mb-12 text-center"
-        >
-          {t(sectionLabels.skills.en, sectionLabels.skills.id)}
-        </h2>
+        <SectionHeading
+          ref={headingRef}
+          title={t(sectionLabels.skills.en, sectionLabels.skills.id)}
+          subtitle={t('Technologies and tools I work with', 'Teknologi dan alat yang saya gunakan')}
+        />
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Skills */}
-          <div ref={skillsRef}>
-            <h3 className="font-mono text-lg uppercase tracking-wider mb-6 text-ink-light">
-              {t('Technical Skills', 'Keterampilan Teknis')}
-            </h3>
-            <div className="space-y-5">
-              {personalInfo.skills.map((skill) => (
-                <div key={skill.name} className="skill-bar">
-                  <div className="flex justify-between mb-2">
-                    <span className="font-mono text-sm uppercase">{skill.name}</span>
-                    <span className="font-mono text-sm text-ink-light">{skill.level}%</span>
-                  </div>
-                  <div className="h-3 bg-paper border-2 border-ink">
+        {/* Skills Grid */}
+        <div className="mb-16">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-6 text-center">
+            {t('Technical Skills', 'Keterampilan Teknis')}
+          </h3>
+          <div ref={skillsRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {personalInfo.skills.map((skill) => (
+              <div
+                key={skill.name}
+                className="glass-card p-4 flex flex-col items-center text-center gap-3"
+              >
+                <span className="text-sm font-medium text-foreground">{skill.name}</span>
+                <div className="flex gap-1.5">
+                  {getLevelDots(skill.level).map((filled, i) => (
                     <div
-                      className="skill-progress h-full bg-ink transition-all duration-1000"
-                      style={{ width: '0%' }}
+                      key={i}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        filled ? 'bg-primary' : 'bg-white/10'
+                      }`}
                     />
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Certifications & Awards */}
-          <div>
-            <h3 className="font-mono text-lg uppercase tracking-wider mb-6 text-ink-light">
-              {t(sectionLabels.certifications.en, sectionLabels.certifications.id)}
-            </h3>
-            <div ref={certsRef} className="space-y-4">
-              {personalInfo.certifications.map((cert) => (
-                <div
-                  key={cert.name}
-                  className="card-brutal hover:shadow-brutal-lg transition-shadow"
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h4 className="font-mono font-bold uppercase">{cert.name}</h4>
-                      <p className="text-sm text-ink-light">{cert.issuer}</p>
-                    </div>
-                    <span className="tag-brutal bg-paper-dark">{cert.year}</span>
+        {/* Certifications & Awards */}
+        <div>
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-6 text-center">
+            {t(sectionLabels.certifications.en, sectionLabels.certifications.id)}
+          </h3>
+          <div ref={certsRef} className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+            {personalInfo.certifications.map((cert) => (
+              <div
+                key={cert.name}
+                className="glass-card p-5"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h4 className="font-semibold text-foreground">{cert.name}</h4>
+                    <p className="text-sm text-muted-foreground">{cert.issuer}</p>
                   </div>
+                  <span className="badge-modern">{cert.year}</span>
                 </div>
-              ))}
+              </div>
+            ))}
 
-              {personalInfo.awards.map((award) => (
-                <a
-                  key={award.name}
-                  href={award.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card-brutal hover:shadow-brutal-lg transition-shadow block border-accent-red"
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h4 className="font-mono font-bold uppercase text-accent-red">
-                        {award.name}
-                      </h4>
-                      <p className="text-sm text-ink-light">{award.achievement}</p>
-                    </div>
-                    <span className="tag-brutal bg-accent-red text-white">🏆</span>
+            {personalInfo.awards.map((award) => (
+              <a
+                key={award.name}
+                href={award.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card p-5 border-l-2 border-l-primary hover:border-l-primary/80"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h4 className="font-semibold text-primary">
+                      {award.name}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">{award.achievement}</p>
                   </div>
-                </a>
-              ))}
-            </div>
+                  <span className="badge-modern bg-primary/10 text-primary border-primary/20">Award</span>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </div>

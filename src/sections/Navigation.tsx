@@ -36,7 +36,7 @@ export default function Navigation() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-paper/95 backdrop-blur-sm border-b-3 border-ink'
+            ? 'bg-background/80 backdrop-blur-xl border-b border-white/10'
             : 'bg-transparent'
         }`}
       >
@@ -45,11 +45,11 @@ export default function Navigation() {
             {/* Logo */}
             <Link
               to="/"
-              className="font-mono text-lg md:text-xl font-bold tracking-tight hover:opacity-70 transition-opacity"
+              className="text-lg md:text-xl font-bold tracking-tight hover:opacity-70 transition-opacity"
             >
-              <span className="text-accent-red">&lt;</span>
-              {personalInfo.nickName.toUpperCase()}
-              <span className="text-accent-red">/&gt;</span>
+              <span className="text-muted-foreground">&lt;</span>
+              <span className="gradient-text">{personalInfo.nickName}</span>
+              <span className="text-muted-foreground">/&gt;</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -58,15 +58,15 @@ export default function Navigation() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`font-mono text-sm uppercase tracking-wider relative group ${
+                  className={`text-sm relative group transition-colors ${
                     isActive(link.href)
-                      ? 'text-ink'
-                      : 'text-ink-light hover:text-ink'
+                      ? 'text-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.label}
                   <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-ink transition-all duration-300 ${
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary rounded-full transition-all duration-300 ${
                       isActive(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
@@ -76,7 +76,7 @@ export default function Navigation() {
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-2 font-mono text-sm border-2 border-ink px-3 py-1.5 hover:bg-ink hover:text-paper transition-colors"
+                className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
               >
                 <Globe className="w-4 h-4" />
                 <span className="uppercase">{language}</span>
@@ -86,7 +86,7 @@ export default function Navigation() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 border-2 border-ink hover:bg-ink hover:text-paper transition-colors"
+              className="md:hidden p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -101,7 +101,7 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-paper transition-transform duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 bg-background/95 backdrop-blur-xl transition-transform duration-300 md:hidden ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -111,8 +111,8 @@ export default function Navigation() {
               key={link.href}
               to={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`font-mono text-2xl uppercase tracking-wider ${
-                isActive(link.href) ? 'text-ink' : 'text-ink-light'
+              className={`text-2xl font-medium ${
+                isActive(link.href) ? 'text-foreground' : 'text-muted-foreground'
               }`}
             >
               {link.label}
@@ -125,10 +125,10 @@ export default function Navigation() {
               toggleLanguage();
               setIsMobileMenuOpen(false);
             }}
-            className="flex items-center gap-2 font-mono text-lg border-2 border-ink px-4 py-2 mt-4"
+            className="flex items-center gap-2 text-lg px-5 py-2.5 rounded-full bg-white/5 border border-white/10 mt-4 text-muted-foreground"
           >
             <Globe className="w-5 h-5" />
-            <span className="uppercase">{language === 'en' ? 'English' : 'Bahasa Indonesia'}</span>
+            <span>{language === 'en' ? 'English' : 'Bahasa Indonesia'}</span>
           </button>
         </div>
       </div>

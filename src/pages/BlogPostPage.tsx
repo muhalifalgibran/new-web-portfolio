@@ -19,14 +19,14 @@ export default function BlogPostPage() {
     return (
       <div className="min-h-screen pt-24 pb-16 px-4 md:px-8">
         <div className="max-w-4xl mx-auto animate-pulse">
-          <div className="h-4 bg-paper-dark rounded w-32 mb-8" />
-          <div className="h-8 bg-paper-dark rounded w-2/3 mb-4" />
-          <div className="h-4 bg-paper-dark rounded w-1/3 mb-12" />
-          <div className="aspect-video bg-paper-dark border-3 border-ink mb-12" />
+          <div className="h-4 bg-white/5 rounded w-32 mb-8" />
+          <div className="h-8 bg-white/5 rounded w-2/3 mb-4" />
+          <div className="h-4 bg-white/5 rounded w-1/3 mb-12" />
+          <div className="aspect-video bg-white/5 rounded-lg mb-12" />
           <div className="space-y-3">
-            <div className="h-4 bg-paper-dark rounded w-full" />
-            <div className="h-4 bg-paper-dark rounded w-5/6" />
-            <div className="h-4 bg-paper-dark rounded w-4/6" />
+            <div className="h-4 bg-white/5 rounded w-full" />
+            <div className="h-4 bg-white/5 rounded w-5/6" />
+            <div className="h-4 bg-white/5 rounded w-4/6" />
           </div>
         </div>
       </div>
@@ -59,10 +59,10 @@ export default function BlogPostPage() {
 
   const getCategoryColor = (category: BlogCategory) => {
     switch (category) {
-      case 'engineering': return 'bg-accent-blue';
-      case 'religion': return 'bg-accent-green';
-      case 'social': return 'bg-accent-red';
-      default: return 'bg-ink';
+      case 'engineering': return 'bg-indigo-500/80';
+      case 'religion': return 'bg-emerald-500/80';
+      case 'social': return 'bg-rose-500/80';
+      default: return 'bg-white/20';
     }
   };
 
@@ -72,7 +72,7 @@ export default function BlogPostPage() {
         {/* Back Link */}
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 text-ink-light hover:text-ink transition-colors mb-8 font-mono text-sm"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 text-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{t(sectionLabels.backToBlog.en, sectionLabels.backToBlog.id)}</span>
@@ -80,13 +80,13 @@ export default function BlogPostPage() {
 
         {/* Draft Warning */}
         {post.draft && showDraftWarning && (
-          <div className="mb-8 brutal-border bg-accent-red/10 border-accent-red p-4 flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-accent-red flex-shrink-0 mt-0.5" />
+          <div className="mb-8 glass-card border-destructive/30 p-4 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="font-mono font-bold text-accent-red uppercase text-sm">
+              <p className="font-semibold text-destructive text-sm">
                 {t('Draft Post', 'Posting Draf')}
               </p>
-              <p className="text-sm text-ink-light mt-1">
+              <p className="text-sm text-muted-foreground mt-1">
                 {t(
                   'This post is still a draft and not publicly visible.',
                   'Posting ini masih draf dan tidak terlihat secara publik.'
@@ -95,7 +95,7 @@ export default function BlogPostPage() {
             </div>
             <button
               onClick={() => setShowDraftWarning(false)}
-              className="text-ink-light hover:text-ink"
+              className="text-muted-foreground hover:text-foreground"
             >
               x
             </button>
@@ -104,15 +104,15 @@ export default function BlogPostPage() {
 
         {/* Header */}
         <header className="mb-12">
-          <div className={`inline-block px-3 py-1 text-xs font-mono uppercase text-white mb-4 ${getCategoryColor(post.tags[0])}`}>
+          <div className={`inline-block px-2.5 py-1 text-xs font-medium text-white rounded-md mb-4 ${getCategoryColor(post.tags[0])}`}>
             {categoryLabels[post.tags[0]][language]}
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-mono font-bold mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
             {post.title[language]}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-ink-light mb-6">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
               {formatDate(post.date)}
@@ -127,7 +127,7 @@ export default function BlogPostPage() {
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs font-mono uppercase px-3 py-1.5 bg-paper-dark border-2 border-ink"
+                className="badge-modern"
               >
                 {categoryLabels[tag][language]}
               </span>
@@ -136,24 +136,24 @@ export default function BlogPostPage() {
 
           {(hasEnglishContent && hasIndonesianContent) && (
             <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-ink-light" />
-              <div className="flex border-2 border-ink">
+              <Globe className="w-4 h-4 text-muted-foreground" />
+              <div className="flex rounded-full overflow-hidden border border-white/10">
                 <button
                   onClick={() => setLanguage('en')}
-                  className={`px-4 py-2 font-mono text-sm uppercase transition-colors ${
+                  className={`px-4 py-2 text-sm transition-colors ${
                     language === 'en'
-                      ? 'bg-ink text-paper'
-                      : 'bg-paper text-ink hover:bg-ink/10'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-white/5 text-muted-foreground hover:bg-white/10'
                   }`}
                 >
                   English
                 </button>
                 <button
                   onClick={() => setLanguage('id')}
-                  className={`px-4 py-2 font-mono text-sm uppercase transition-colors border-l-2 border-ink ${
+                  className={`px-4 py-2 text-sm transition-colors ${
                     language === 'id'
-                      ? 'bg-ink text-paper'
-                      : 'bg-paper text-ink hover:bg-ink/10'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-white/5 text-muted-foreground hover:bg-white/10'
                   }`}
                 >
                   Bahasa Indonesia
@@ -164,11 +164,11 @@ export default function BlogPostPage() {
         </header>
 
         {/* Featured Image */}
-        <div className="aspect-video bg-paper-dark border-3 border-ink mb-12 flex items-center justify-center relative overflow-hidden">
+        <div className="aspect-video bg-secondary rounded-lg mb-12 relative overflow-hidden">
           <img
             src={post.featuredImage || '/blog/pixel-code.png'}
             alt={post.title[language]}
-            className="absolute inset-0 w-full h-full object-cover pixel-image"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
 
@@ -200,14 +200,14 @@ export default function BlogPostPage() {
         </article>
 
         {/* Footer */}
-        <footer className="mt-16 pt-8 border-t-3 border-ink">
+        <footer className="mt-16 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-ink-light text-sm">
-              {t('Thanks for reading!', 'Terima kasih sudah membaca!')} 🙏
+            <p className="text-muted-foreground text-sm">
+              {t('Thanks for reading!', 'Terima kasih sudah membaca!')}
             </p>
             <Link
               to="/blog"
-              className="btn-brutal-outline"
+              className="btn-ghost"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{t(sectionLabels.backToBlog.en, sectionLabels.backToBlog.id)}</span>

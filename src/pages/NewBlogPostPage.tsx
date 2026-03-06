@@ -129,7 +129,6 @@ export default function NewBlogPostPage() {
 
     if (result.success) {
       toast.success(draft ? 'Draft saved!' : 'Post published!');
-      // Reset form
       setTitleEn(''); setTitleId(''); setSlug(''); setSlugManual(false);
       setDate(new Date().toISOString().split('T')[0]); setDraft(false);
       setTags(['engineering']); setReadingTime('');
@@ -146,6 +145,8 @@ export default function NewBlogPostPage() {
     await signOut();
   };
 
+  const inputClasses = "w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors";
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
@@ -153,97 +154,99 @@ export default function NewBlogPostPage() {
         <div className="flex items-center justify-between mb-8">
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 text-ink-light hover:text-ink transition-colors font-mono text-sm"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
           <div className="flex items-center gap-4">
-            <span className="font-mono text-xs text-ink-light">{session?.user.email}</span>
-            <button onClick={handleSignOut} className="inline-flex items-center gap-1 text-ink-light hover:text-ink font-mono text-xs">
+            <span className="text-xs text-muted-foreground">{session?.user.email}</span>
+            <button onClick={handleSignOut} className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground text-xs">
               <LogOut className="w-3 h-3" /> Sign Out
             </button>
           </div>
         </div>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-mono font-bold mb-2">New Blog Post</h1>
-          <p className="text-ink-light font-mono text-sm">Write and publish directly to your blog.</p>
+          <h1 className="text-4xl font-bold mb-2">New Blog Post</h1>
+          <p className="text-muted-foreground text-sm">Write and publish directly to your blog.</p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_1fr] gap-8">
           {/* Left: Metadata + Editor */}
           <div className="flex flex-col gap-6">
             {/* Metadata */}
-            <section className="brutal-border p-6 bg-paper">
-              <h2 className="font-mono font-bold uppercase text-sm tracking-wider mb-4">Metadata</h2>
+            <section className="glass-card p-6">
+              <h2 className="font-semibold text-sm tracking-wider mb-4">Metadata</h2>
 
               <div className="flex flex-col gap-4">
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Title (English)</label>
+                  <label className="text-xs text-muted-foreground block mb-1.5">Title (English)</label>
                   <input
                     type="text"
                     value={titleEn}
                     onChange={e => handleTitleEnChange(e.target.value)}
                     placeholder="e.g. Vibe Code is a New Programming Language"
-                    className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                    className={inputClasses}
                   />
                 </div>
 
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Title (Bahasa Indonesia)</label>
+                  <label className="text-xs text-muted-foreground block mb-1.5">Title (Bahasa Indonesia)</label>
                   <input
                     type="text"
                     value={titleId}
                     onChange={e => setTitleId(e.target.value)}
                     placeholder="e.g. Vibe Code adalah Bahasa Pemrograman Baru"
-                    className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                    className={inputClasses}
                   />
                 </div>
 
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Slug</label>
+                  <label className="text-xs text-muted-foreground block mb-1.5">Slug</label>
                   <input
                     type="text"
                     value={slug}
                     onChange={e => handleSlugChange(e.target.value)}
                     placeholder="auto-generated-from-title"
-                    className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                    className={inputClasses}
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Date</label>
+                    <label className="text-xs text-muted-foreground block mb-1.5">Date</label>
                     <input
                       type="date"
                       value={date}
                       onChange={e => setDate(e.target.value)}
-                      className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                      className={inputClasses}
                     />
                   </div>
                   <div>
-                    <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Reading Time (auto)</label>
+                    <label className="text-xs text-muted-foreground block mb-1.5">Reading Time (auto)</label>
                     <input
                       type="text"
                       value={readingTime}
                       onChange={e => setReadingTime(e.target.value)}
                       placeholder={autoReadingTime}
-                      className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue"
+                      className={inputClasses}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-2">Tags</label>
+                  <label className="text-xs text-muted-foreground block mb-2">Tags</label>
                   <div className="flex gap-2 flex-wrap">
                     {CATEGORIES.map(cat => (
                       <button
                         key={cat}
                         type="button"
                         onClick={() => handleTagToggle(cat)}
-                        className={`px-3 py-1.5 font-mono text-xs uppercase tracking-wider border-2 border-ink transition-colors ${
-                          tags.includes(cat) ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-ink/10'
+                        className={`px-3 py-1.5 text-xs rounded-full border transition-all ${
+                          tags.includes(cat)
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-white/5 text-muted-foreground border-white/10 hover:bg-white/10'
                         }`}
                       >
                         {categoryLabels[cat].en}
@@ -254,7 +257,7 @@ export default function NewBlogPostPage() {
 
                 {/* Featured Image Upload */}
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Featured Image</label>
+                  <label className="text-xs text-muted-foreground block mb-1.5">Featured Image</label>
                   <input
                     ref={featuredInputRef}
                     type="file"
@@ -267,17 +270,17 @@ export default function NewBlogPostPage() {
                       type="button"
                       onClick={() => featuredInputRef.current?.click()}
                       disabled={uploadingFeatured}
-                      className="flex items-center gap-2 px-3 py-2 border-2 border-ink bg-paper font-mono text-sm hover:bg-ink/10 transition-colors disabled:opacity-50"
+                      className="btn-ghost text-xs disabled:opacity-50"
                     >
                       <Upload className="w-4 h-4" />
                       {uploadingFeatured ? 'Uploading...' : 'Upload Image'}
                     </button>
                     {featuredImageUrl && (
-                      <span className="font-mono text-xs text-accent-green self-center truncate max-w-[200px]">Uploaded</span>
+                      <span className="text-xs text-emerald-400 self-center">Uploaded</span>
                     )}
                   </div>
                   {featuredImageUrl && (
-                    <img src={featuredImageUrl} alt="Featured preview" className="mt-2 w-full aspect-video object-cover border-2 border-ink" />
+                    <img src={featuredImageUrl} alt="Featured preview" className="mt-2 w-full aspect-video object-cover rounded-lg border border-white/10" />
                   )}
                 </div>
 
@@ -285,37 +288,37 @@ export default function NewBlogPostPage() {
                 <label className="flex items-center gap-3 cursor-pointer select-none">
                   <div
                     onClick={() => setDraft(d => !d)}
-                    className={`w-10 h-5 border-2 border-ink relative transition-colors ${draft ? 'bg-accent-red' : 'bg-paper'}`}
+                    className={`w-10 h-5 rounded-full relative transition-colors ${draft ? 'bg-primary' : 'bg-white/10'}`}
                   >
-                    <div className={`absolute top-0 bottom-0 w-4 border-2 border-ink bg-paper transition-transform ${draft ? 'translate-x-4' : 'translate-x-0'}`} />
+                    <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${draft ? 'translate-x-5' : 'translate-x-0.5'}`} />
                   </div>
-                  <span className="font-mono text-sm">Draft</span>
+                  <span className="text-sm">Draft</span>
                 </label>
               </div>
             </section>
 
             {/* Excerpt */}
-            <section className="brutal-border p-6 bg-paper">
-              <h2 className="font-mono font-bold uppercase text-sm tracking-wider mb-4">Excerpt</h2>
+            <section className="glass-card p-6">
+              <h2 className="font-semibold text-sm tracking-wider mb-4">Excerpt</h2>
               <div className="flex flex-col gap-4">
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Excerpt (English)</label>
+                  <label className="text-xs text-muted-foreground block mb-1.5">Excerpt (English)</label>
                   <textarea
                     value={excerptEn}
                     onChange={e => setExcerptEn(e.target.value)}
                     rows={2}
                     placeholder="Short description for the blog card..."
-                    className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue resize-y"
+                    className={`${inputClasses} resize-y`}
                   />
                 </div>
                 <div>
-                  <label className="font-mono text-xs uppercase tracking-wider text-ink-light block mb-1">Excerpt (Bahasa Indonesia)</label>
+                  <label className="text-xs text-muted-foreground block mb-1.5">Excerpt (Bahasa Indonesia)</label>
                   <textarea
                     value={excerptId}
                     onChange={e => setExcerptId(e.target.value)}
                     rows={2}
                     placeholder="Deskripsi singkat untuk kartu blog..."
-                    className="w-full border-2 border-ink bg-paper px-3 py-2 font-mono text-sm focus:outline-none focus:border-accent-blue resize-y"
+                    className={`${inputClasses} resize-y`}
                   />
                 </div>
               </div>
@@ -324,22 +327,22 @@ export default function NewBlogPostPage() {
 
           {/* Right: Markdown Editor + Preview */}
           <div className="flex flex-col gap-6">
-            <section className="brutal-border bg-paper flex flex-col" style={{ minHeight: '600px' }}>
+            <section className="glass-card flex flex-col overflow-hidden" style={{ minHeight: '600px' }}>
               {/* Toolbar */}
-              <div className="flex items-center border-b-2 border-ink">
+              <div className="flex items-center border-b border-white/10">
                 <div className="flex">
                   <button
                     onClick={() => setActiveTab('en')}
-                    className={`px-4 py-3 font-mono text-xs uppercase tracking-wider border-r-2 border-ink transition-colors ${
-                      activeTab === 'en' ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-ink/10'
+                    className={`px-4 py-3 text-xs tracking-wider transition-colors ${
+                      activeTab === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
                     }`}
                   >
                     English
                   </button>
                   <button
                     onClick={() => setActiveTab('id')}
-                    className={`px-4 py-3 font-mono text-xs uppercase tracking-wider border-r-2 border-ink transition-colors ${
-                      activeTab === 'id' ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-ink/10'
+                    className={`px-4 py-3 text-xs tracking-wider border-l border-white/10 transition-colors ${
+                      activeTab === 'id' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
                     }`}
                   >
                     Bahasa ID
@@ -347,7 +350,6 @@ export default function NewBlogPostPage() {
                 </div>
 
                 <div className="flex ml-auto">
-                  {/* Inline image upload */}
                   <input
                     ref={inlineInputRef}
                     type="file"
@@ -357,15 +359,15 @@ export default function NewBlogPostPage() {
                   />
                   <button
                     onClick={() => inlineInputRef.current?.click()}
-                    className="px-4 py-3 font-mono text-xs uppercase tracking-wider border-l-2 border-ink transition-colors bg-paper text-ink hover:bg-ink/10 flex items-center gap-1.5"
+                    className="px-4 py-3 text-xs border-l border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors flex items-center gap-1.5"
                     title="Insert image"
                   >
                     <Image className="w-3 h-3" />
                   </button>
                   <button
                     onClick={() => setPreviewMode(false)}
-                    className={`px-4 py-3 font-mono text-xs uppercase tracking-wider border-l-2 border-ink transition-colors flex items-center gap-1.5 ${
-                      !previewMode ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-ink/10'
+                    className={`px-4 py-3 text-xs border-l border-white/10 transition-colors flex items-center gap-1.5 ${
+                      !previewMode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
                     }`}
                   >
                     <Edit3 className="w-3 h-3" />
@@ -373,8 +375,8 @@ export default function NewBlogPostPage() {
                   </button>
                   <button
                     onClick={() => setPreviewMode(true)}
-                    className={`px-4 py-3 font-mono text-xs uppercase tracking-wider border-l-2 border-ink transition-colors flex items-center gap-1.5 ${
-                      previewMode ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-ink/10'
+                    className={`px-4 py-3 text-xs border-l border-white/10 transition-colors flex items-center gap-1.5 ${
+                      previewMode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
                     }`}
                   >
                     <Eye className="w-3 h-3" />
@@ -410,7 +412,7 @@ export default function NewBlogPostPage() {
                         {activeContent}
                       </ReactMarkdown>
                     ) : (
-                      <p className="text-ink-light font-mono text-sm italic">Nothing to preview yet.</p>
+                      <p className="text-muted-foreground text-sm italic">Nothing to preview yet.</p>
                     )}
                   </div>
                 ) : (
@@ -419,7 +421,7 @@ export default function NewBlogPostPage() {
                     value={activeContent}
                     onChange={e => setActiveContent(e.target.value)}
                     placeholder={`# Your Post Title\n\nWrite your content in Markdown...\n\n## Section\n\nParagraph text here.\n\n\`\`\`dart\n// code block\n\`\`\``}
-                    className="w-full h-full px-6 py-6 font-mono text-sm bg-paper focus:outline-none resize-none leading-relaxed"
+                    className="w-full h-full px-6 py-6 font-mono text-sm bg-transparent focus:outline-none resize-none leading-relaxed text-foreground placeholder:text-muted-foreground/50"
                     style={{ minHeight: '560px' }}
                     spellCheck={false}
                   />
@@ -427,11 +429,11 @@ export default function NewBlogPostPage() {
               </div>
 
               {/* Word count */}
-              <div className="border-t-2 border-ink px-4 py-2 flex justify-between items-center">
-                <span className="font-mono text-xs text-ink-light">
+              <div className="border-t border-white/10 px-4 py-2 flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">
                   {activeTab === 'en' ? 'English' : 'Bahasa Indonesia'} — {activeContent.trim().split(/\s+/).filter(Boolean).length} words
                 </span>
-                <span className="font-mono text-xs text-ink-light">
+                <span className="text-xs text-muted-foreground">
                   ~{estimateReadingTime(activeContent)} read
                 </span>
               </div>
@@ -444,7 +446,7 @@ export default function NewBlogPostPage() {
           <button
             onClick={handlePublish}
             disabled={publishing}
-            className="btn-brutal flex items-center gap-2 text-base px-8 py-3 disabled:opacity-50"
+            className="btn-primary text-base px-8 py-3"
           >
             <Upload className="w-5 h-5" />
             {publishing ? 'Publishing...' : draft ? 'Save Draft' : 'Publish Post'}

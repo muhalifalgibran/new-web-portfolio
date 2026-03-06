@@ -27,7 +27,6 @@ export default function BlogPage() {
   useEffect(() => {
     if (loading) return;
     const ctx = gsap.context(() => {
-      // Header animation
       gsap.fromTo(
         headerRef.current,
         { opacity: 0, y: 20 },
@@ -39,7 +38,6 @@ export default function BlogPage() {
         }
       );
 
-      // Filters animation
       gsap.fromTo(
         filtersRef.current?.children || [],
         { opacity: 0, y: 10 },
@@ -53,7 +51,6 @@ export default function BlogPage() {
         }
       );
 
-      // Posts animation
       gsap.fromTo(
         postsRef.current?.children || [],
         { opacity: 0, y: 30 },
@@ -73,14 +70,10 @@ export default function BlogPage() {
 
   const getCategoryColor = (category: BlogCategory) => {
     switch (category) {
-      case 'engineering':
-        return 'bg-accent-blue';
-      case 'religion':
-        return 'bg-accent-green';
-      case 'social':
-        return 'bg-accent-red';
-      default:
-        return 'bg-ink';
+      case 'engineering': return 'bg-indigo-500/80';
+      case 'religion': return 'bg-emerald-500/80';
+      case 'social': return 'bg-rose-500/80';
+      default: return 'bg-white/20';
     }
   };
 
@@ -106,7 +99,7 @@ export default function BlogPage() {
         {/* Back Link */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-ink-light hover:text-ink transition-colors mb-8 font-mono text-sm"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 text-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{t(sectionLabels.backToHome.en, sectionLabels.backToHome.id)}</span>
@@ -114,10 +107,10 @@ export default function BlogPage() {
 
         {/* Header */}
         <div ref={headerRef} className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-mono font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
             {t('Blog', 'Blog')}
           </h1>
-          <p className="text-ink-light text-lg max-w-2xl">
+          <p className="text-muted-foreground text-lg max-w-2xl">
             {t(
               'Personal thoughts, research, and tutorials on engineering, faith, and social issues.',
               'Pikiran pribadi, penelitian, dan tutorial tentang teknik, iman, dan isu sosial.'
@@ -127,18 +120,18 @@ export default function BlogPage() {
 
         {/* Filters */}
         <div className="mb-12">
-          <p className="font-mono text-sm uppercase tracking-wider text-ink-light mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             {t(sectionLabels.filterBy.en, sectionLabels.filterBy.id)}
           </p>
-          <div ref={filtersRef} className="flex flex-wrap gap-3">
+          <div ref={filtersRef} className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 font-mono text-sm uppercase tracking-wider border-2 border-ink transition-all ${
+                className={`px-4 py-2 text-sm rounded-full border transition-all ${
                   selectedCategory === category
-                    ? 'bg-ink text-paper'
-                    : 'bg-paper text-ink hover:bg-ink hover:text-paper'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-white/5 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-foreground'
                 }`}
               >
                 {getCategoryLabel(category)}
@@ -151,12 +144,12 @@ export default function BlogPage() {
         {loading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map(i => (
-              <div key={i} className="card-brutal h-full flex flex-col animate-pulse">
-                <div className="aspect-video bg-paper-dark border-b-3 border-ink mb-4" />
-                <div className="flex-1 flex flex-col gap-2 p-4">
-                  <div className="h-3 bg-paper-dark rounded w-1/3" />
-                  <div className="h-5 bg-paper-dark rounded w-3/4" />
-                  <div className="h-3 bg-paper-dark rounded w-full" />
+              <div key={i} className="glass-card h-full flex flex-col animate-pulse overflow-hidden">
+                <div className="aspect-video bg-white/5" />
+                <div className="flex-1 flex flex-col gap-2 p-5">
+                  <div className="h-3 bg-white/5 rounded w-1/3" />
+                  <div className="h-5 bg-white/5 rounded w-3/4" />
+                  <div className="h-3 bg-white/5 rounded w-full" />
                 </div>
               </div>
             ))}
@@ -172,35 +165,35 @@ export default function BlogPage() {
                 to={`/blog/${post.slug}`}
                 className="group"
               >
-                <article className="card-brutal h-full flex flex-col hover:shadow-brutal-lg transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1">
+                <article className="glass-card h-full flex flex-col overflow-hidden">
                   {/* Featured Image */}
-                  <div className="aspect-video bg-paper-dark border-b-3 border-ink mb-4 flex items-center justify-center relative overflow-hidden">
+                  <div className="aspect-video bg-secondary relative overflow-hidden">
                     <img
                       src={post.featuredImage || '/blog/pixel-code.png'}
                       alt={post.title[language]}
-                      className="absolute inset-0 w-full h-full object-cover pixel-image"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className={`absolute top-3 left-3 px-2 py-1 text-xs font-mono uppercase text-white z-10 ${getCategoryColor(post.tags[0])}`}>
+                    <div className={`absolute top-3 left-3 px-2.5 py-1 text-xs font-medium text-white rounded-md z-10 backdrop-blur-sm ${getCategoryColor(post.tags[0])}`}>
                       {categoryLabels[post.tags[0]][language]}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1 flex flex-col">
-                    <div className="flex items-center gap-3 text-xs text-ink-light mb-3">
-                      <span className="font-mono">{formatDate(post.date)}</span>
-                      <span>•</span>
+                  <div className="flex-1 flex flex-col p-5">
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                      <span>{formatDate(post.date)}</span>
+                      <span>·</span>
                       <span className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {post.readingTime} {t(sectionLabels.readingTime.en, sectionLabels.readingTime.id)}
                       </span>
                     </div>
 
-                    <h3 className="font-mono font-bold text-lg mb-2 group-hover:text-accent-red transition-colors line-clamp-2">
+                    <h3 className="font-semibold text-lg mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       {post.title[language]}
                     </h3>
 
-                    <p className="text-sm text-ink-light line-clamp-3 mb-4 flex-1">
+                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4 flex-1">
                       {post.excerpt[language]}
                     </p>
 
@@ -208,7 +201,7 @@ export default function BlogPage() {
                       {post.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs font-mono uppercase px-2 py-1 bg-paper-dark border border-ink/20"
+                          className="badge-modern text-xs"
                         >
                           {categoryLabels[tag][language]}
                         </span>
@@ -221,7 +214,7 @@ export default function BlogPage() {
           </div>
         ) : !loading ? (
           <div className="text-center py-16">
-            <p className="font-mono text-ink-light">
+            <p className="text-muted-foreground">
               {t('No posts found in this category.', 'Tidak ada postingan di kategori ini.')}
             </p>
           </div>

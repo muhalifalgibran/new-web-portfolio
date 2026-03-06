@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { blogPosts, getPublishedPosts as getPublishedPostsFallback, getPostBySlug as getPostBySlugFallback, type BlogPost, type BlogCategory } from '@/data/blog';
+import { getPublishedPosts as getPublishedPostsFallback, getPostBySlug as getPostBySlugFallback, type BlogPost, type BlogCategory } from '@/data/blog';
 import { personalInfo, navigationLabels, sectionLabels } from '@/data/personal';
 import type { Tables } from '@/types/database';
 

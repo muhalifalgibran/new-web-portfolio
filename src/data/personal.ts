@@ -10,12 +10,12 @@ export const personalInfo = {
   bio: {
     en: `Hi, I'm Muh Alif Al Gibran, a passionate Flutter Engineer with almost 5 years of experience, currently working at a crypto exchange company in Indonesia. I've also had the privilege of contributing to projects with foreign companies.
 
-My days are fueled by faith, innovation, and perseverance—praying, working, learning, and grinding LeetCode are my daily rituals. When I'm not coding, you'll find me playing football or running.
+My days are fueled by faith, innovation, and perseverance—praying, working, learning, and grinding LeetCode are my daily rituals. When I'm not coding, you'll find me playing tennis, football, or running.
 
 Let's connect and create something amazing together!`,
     id: `Halo, saya Muh Alif Al Gibran, seorang Flutter Engineer yang bersemangat dengan pengalaman hampir 5 tahun, saat ini bekerja di perusahaan bursa crypto di Indonesia. Saya juga memiliki kesempatan untuk berkontribusi pada proyek dengan perusahaan asing.
 
-Hari-hari saya dipenuhi oleh iman, inovasi, dan ketekunan—berdoa, bekerja, belajar, dan mengerjakan LeetCode adalah ritual harian saya. Ketika tidak sedang coding, Anda akan menemukan saya bermain sepak bola atau berlari.
+Hari-hari saya dipenuhi oleh iman, inovasi, dan ketekunan—berdoa, bekerja, belajar, dan mengerjakan LeetCode adalah ritual harian saya. Ketika tidak sedang coding, Anda akan menemukan saya bermain tenis, sepak bola, atau berlari.
 
 Mari terhubung dan membuat sesuatu yang luar biasa bersama!`
   },
@@ -27,9 +27,9 @@ Mari terhubung dan membuat sesuatu yang luar biasa bersama!`
   skills: [
     { name: 'Flutter', level: 95 },
     { name: 'Dart', level: 90 },
-    { name: 'Python', level: 75 },
-    { name: 'Go', level: 60 },
-    { name: 'JavaScript', level: 70 },
+    { name: 'Python', level: 50 },
+    { name: 'Go', level: 40 },
+    { name: 'JavaScript', level: 60 },
     { name: 'Firebase', level: 85 }
   ],
   certifications: [
@@ -37,12 +37,17 @@ Mari terhubung dan membuat sesuatu yang luar biasa bersama!`
       name: 'Kotlin Android Developer Expert',
       year: '2019',
       issuer: 'Dicoding Indonesia'
+    },
+    {
+      name: 'Python Data Structures & Algorithms + LEETCODE Exercises',
+      year: '2025',
+      issuer: 'Udemy Course by Scott Barrett'
     }
   ],
   awards: [
     {
       name: 'AWS Hackathon Finalist',
-      achievement: 'Top 5 Apps',
+      achievement: 'Top 5 Apps Nationwide',
       link: 'https://www.linkedin.com/posts/adinugrhoo_we-build-ollo-personal-healthcare-companion-activity-6513396244143017984-FgCM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB_E8loBsnE1iRs1XENFpe4Eqh7AUe9SMRI'
     }
   ]

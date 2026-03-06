@@ -1,5 +1,6 @@
 import HeroSection from '@/sections/HeroSection';
 import SkillsSection from '@/sections/SkillsSection';
+import GitHubContributions from '@/sections/GitHubContributions';
 import BlogPreview from '@/sections/BlogPreview';
 
 export default function HomePage() {
@@ -7,6 +8,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <SkillsSection />
+      <GitHubContributions />
       <BlogPreview />
     </>
   );

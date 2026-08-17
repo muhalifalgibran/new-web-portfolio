@@ -63,6 +63,8 @@ personal thoughts, research, tutorials.
 3. Web styling
 - pixel art, brutalism styling, papers color for easy to read
 - make it simple as possible so the web not demaging the user's eyes
+- use tailwind
+- use next.js
 ---
 Questions & Suggestions Before Implementation
 1. Profile Photo  
